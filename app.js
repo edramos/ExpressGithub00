@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var csurf  = require('csurf');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -19,8 +21,10 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('Lalo is your cookie-parser'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret: 'Crippled Inside!', saveUninitialized: true, resave: true}));
+app.use(csurf());
 
 app.use('/', routes);
 app.use('/users', users);
@@ -56,6 +60,10 @@ app.use(function(err, req, res, next) {
   });
 });
 
+app.use('/users', function(req, res, next){
+  console.log('%s %s — %s', (new Date).toString(), req.method, req.url);
+  return next();
+});
 
 module.exports = app;
 
