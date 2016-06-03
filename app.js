@@ -10,7 +10,6 @@ var users = require('./routes/users');
 
 var app = express();
 
-app.set('port', process.env.PORT || 3000);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -60,7 +59,3 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-
-app.listen(app.get('port'), function(){
-  console.log( 'Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.' );
-});
